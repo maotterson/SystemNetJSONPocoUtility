@@ -1,0 +1,49 @@
+﻿@page "/"
+@inject PocoGeneratorService _pocoCreationService
+
+<PageTitle>Index</PageTitle>
+
+<div>
+    <div class="text-center">
+        <h3>System.Net.JSON to POCO Generator</h3>
+        <p>Generate C# 10/.NET 6 POCO Object for use with System.Net.JSON Library</p>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <label for="input-namespace" class="form-label">Namespace</label>
+                <input type="text" class="form-control" @oninput="InputEdited" @bind="Namespace"/>
+            </div>
+            <div class="row">
+                <label for="input-class" class="form-label">Class</label>
+                <input type="text" class="form-control" @oninput="InputEdited" @bind="Class"/>    
+            </div>
+            <div class="row">
+                <label for="textarea-json" class="form-label">JSON</label>
+                <textarea class="form-control" rows="10" @oninput="InputEdited" @bind="Json"></textarea>
+            </div>
+        </div>
+        <div class="col flex-grow-1">
+            @PocoString
+        </div>
+    </div>
+</div>
+
+@code{
+    public string Namespace { get; set; } = "";
+    public string Class { get; set; } = "";
+    public string Json { get; set; } = "";
+
+    public string PocoString { get; set; } = "";
+
+    public void InputEdited()
+    {
+        PocoString = UpdatePoco(Namespace,Class,Json);
+        StateHasChanged();
+    }
+
+    private string UpdatePoco(string pnamespace, string pclass, string json)
+    {
+        return _pocoCreationService.GeneratePoco(pnamespace, pclass, json);
+    }
+}

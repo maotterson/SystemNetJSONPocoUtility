@@ -1,0 +1,31 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div>
+    <div class="text-center">
+        <h3>System.Net.JSON to POCO Generator</h3>
+        <p>Generate C# 10/.NET 6 POCO Object for use with System.Net.JSON Library</p>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <label for="input-namespace" class="form-label">Namespace</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="row">
+                <label for="input-class" class="form-label">Class</label>
+                <input type="text" class="form-control">    
+            </div>
+            <div class="row">
+                <label for="textarea-json" class="form-label">JSON</label>
+                <textarea class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="col flex-grow-1">
+            Output
+        </div>
+    </div>
+</div>
