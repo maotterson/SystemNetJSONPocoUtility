@@ -14,7 +14,12 @@ public static class PocoExtensions
     }
     public static PocoBuilder AddJson(this PocoBuilder builder, string json)
     {
-        var parsedJson = JsonParser.ParseJson(json);
+        var isValidJson = JsonParser.TryParse(json, out var parsedJson);
+        if (!isValidJson)
+        {
+            builder.Output.Clear();
+            builder.Output.Append("Invalid JSON");
+        }
 
         builder.Output.AppendLine("{");
         builder.Output.Append(parsedJson);
