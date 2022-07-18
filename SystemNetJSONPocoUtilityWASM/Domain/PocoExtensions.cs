@@ -19,6 +19,7 @@ public static class PocoExtensions
         {
             builder.Output.Clear();
             builder.Output.Append("Invalid JSON");
+            return builder;
         }
 
         builder.Output.AppendLine("{");
