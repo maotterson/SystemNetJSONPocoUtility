@@ -1,3 +1,6 @@
+using FluentAssertions;
+using SystemNetJSONPocoUtilityWASM.Domain;
+
 namespace SystemNetJSONPocoUtility.Tests.UnitTests;
 
 public class JsonParserUnitTest
@@ -16,8 +19,15 @@ public class JsonParserUnitTest
 
     [Theory]
     [MemberData(nameof(Data))]
-    public void DeserializeAndFlatten_ShouldReturnPropertyKVP_WhenValidJsonProvided(string rawJson, Dictionary<string, string> dictionary)
+    public void DeserializeAndFlatten_ShouldReturnPropertyKVP_WhenValidJsonProvided(string rawJson, Dictionary<string, string> expected)
     {
-        Console.WriteLine(rawJson);
+        // Arrange
+
+        // Act
+        var actual = rawJson.DeserializeAndFlatten();
+
+        // Assert
+        actual.Should().BeEquivalentTo(expected);
+
     }
 }
