@@ -1,4 +1,6 @@
 using FluentAssertions;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using SystemNetJSONPocoUtilityWASM.Domain;
 
 namespace SystemNetJSONPocoUtility.Tests.UnitTests;
@@ -11,15 +13,15 @@ public class JsonParserUnitTest
             new object[] { json, dict }
         };
 
-    public static Dictionary<string, string> dict = new Dictionary<string, string>
+    public static Dictionary<string, JsonElement> dict = new Dictionary<string, JsonElement>
     {
-        { "name","john doe" }
+        { "name", JsonSerializer.SerializeToElement("john doe") }
     };
     const string json = @"{""name"":""john doe""}";
 
     [Theory]
     [MemberData(nameof(Data))]
-    public void DeserializeAndFlatten_ShouldReturnPropertyKVP_WhenValidJsonProvided(string rawJson, Dictionary<string, string> expected)
+    public void DeserializeAndFlatten_ShouldReturnPropertyKVP_WhenValidJsonProvided(string rawJson, Dictionary<string, JsonElement> expected)
     {
         // Arrange
 
@@ -27,7 +29,7 @@ public class JsonParserUnitTest
         var actual = rawJson.DeserializeAndFlatten();
 
         // Assert
-        actual.Should().BeEquivalentTo(expected);
+        actual.Should().Equal(expected);
 
     }
 }

@@ -9,7 +9,15 @@ public static class JsonParser
         parsedPocoString = "";
         try
         {
-            var flatJson = rawJson.DeserializeAndFlatten();
+            var jsonAsDictionary = rawJson.DeserializeAndFlatten()!;
+            foreach (var kvp in jsonAsDictionary)
+            {
+                var key = kvp.Key;
+                var kind = kvp.Value.ValueKind;
+
+                parsedPocoString += $"\t[JsonPropertyName(\"{key}\")] public {kind} {key} {{get; init;}}\n";
+            }
+                
             return true;
         }
         catch
@@ -21,10 +29,9 @@ public static class JsonParser
 }
 public static class JsonParserExtensions
 {
-    public static Dictionary<string, object> DeserializeAndFlatten(this string json)
+    public static Dictionary<string, JsonElement>? DeserializeAndFlatten(this string json)
     {
-        Dictionary<string, object> dict = new Dictionary<string, object>();
-        JsonDocument document = JsonDocument.Parse(json);
+        var dict = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json);
         return dict;
-    }
+    } 
 }
